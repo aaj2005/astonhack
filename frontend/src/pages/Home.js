@@ -19,22 +19,22 @@ const Home = () => {
     setShowCameraSection(false)
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:2223', {method:"POST"}); 
-        const result = await response.json();
-        console.log(result)
-        setData(result);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('http://127.0.0.1:2223', {method:"POST"}); 
+  //       const result = await response.json();
+  //       console.log(result)
+  //       setData(result);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
     const jsonResponse = `
   I'm sorry to hear that you're feeling predominantly sad. Here are some suggestions to help you cope with and address these negative emotions:
@@ -106,7 +106,7 @@ const Home = () => {
             </div>
             
         </div>
-        
+       
     </>
        
     )
