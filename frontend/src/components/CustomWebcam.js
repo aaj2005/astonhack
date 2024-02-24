@@ -1,7 +1,7 @@
 import Webcam from "react-webcam";
 import { useCallback, useEffect, useRef, useState } from "react"; // import useCallback
 
-const CustomWebcam = () => {
+const CustomWebcam = ({ onHide }) => {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
   const [loading, setLoading] = useState(true)
@@ -18,8 +18,10 @@ const CustomWebcam = () => {
 // test
   useEffect(() => {
     const fetchData = async () => {
+        console.log(count)
          if (count == maxCount) {
             setLoading(false)
+            onHide()
          } else {
             setCount(count+1)
             try {
@@ -34,12 +36,13 @@ const CustomWebcam = () => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             } 
+        
         }
     }
 
     const intervalId = setInterval(() => {
         fetchData();
-    }, 5000);
+    }, 33);
     //  33 for 30fps
 
     return () => clearInterval(intervalId);
@@ -55,20 +58,21 @@ const CustomWebcam = () => {
   return (
     <div className="container mt-5">
 
-        <div class="row">
+        <div class="row" id="display">
             <div class="col-6">
                     {imgSrc ? (
                     <img src={imgSrc} alt="webcam" />
                 ) : (
+                    <>
+                    {(count < maxCount) ? (
+                    <div className="text-center">
                     <Webcam height={400} width={600} ref={webcamRef} class="camera" />
+                    <p>Hold still for 8 seconds!</p>
+                    </div>) : (<></>)}
+                    </>
+
                 )}
-                {/* <div className="btn-container">
-                    {imgSrc ? (
-                    <button onClick={retake}>Retake photo</button>
-                    ) : (
-                    <button onClick={capture}>Capture photo</button>
-                    )}
-                </div> */}
+
             </div>
             <div class="col-6 d-flex align-items-center justify-content-center">
                     {loading ? (
@@ -76,11 +80,8 @@ const CustomWebcam = () => {
                             <p>Capturing face...</p>
                             <p>Detecting mood...</p>
                             <p>Personalising feedback...</p>
-                            {/* <div class="spinner-border text-center" role="status">
-                            </div> */}
                         </div>
                     ):(
-                        // <img src= />
                         <></>
                     )
                     }

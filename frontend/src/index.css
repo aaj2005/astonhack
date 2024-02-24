@@ -200,3 +200,8 @@ li {
 .button:hover {
   background-color: #2980b9;
 }
+
+#display {
+  /* width: 1290px; */
+  height: 450px;
+}

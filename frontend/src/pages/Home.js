@@ -8,10 +8,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [detectMood, setDetection] = useState(false)
   const [showButton, setShowButton] = useState(true)
+  const [showCameraSection, setShowCameraSection] = useState(false)
   const handleClick = event => {
-    setDetection(true);
+    setShowCameraSection(true);
     setShowButton(false)
   };
+
+  const handleCameraHide = () => {
+    setShowButton(false)
+    setShowCameraSection(false)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +36,6 @@ const Home = () => {
     fetchData();
   }, []);
 
-//   --------------
-
     const jsonResponse = `
   I'm sorry to hear that you're feeling predominantly sad. Here are some suggestions to help you cope with and address these negative emotions:
 
@@ -44,7 +48,6 @@ const Home = () => {
 
   It's important to note that these suggestions may not completely eliminate your sadness, but they can help you cope with and navigate through difficult emotions. Remember to be patient with yourself and reach out for professional help if needed. You don't have to face this alone, and there are resources available to support you.
 `;
-
 
     const paragraphs = jsonResponse.split('\n\n').filter(para => para.trim() !== '');
 
@@ -59,34 +62,49 @@ const Home = () => {
                 <h5>EmotionSense uses facial recognition to detect your mood, and provide personalised feedback to keep you in check.</h5>
                 
             </div>
-            {showButton ? (<button class="button" onClick={handleClick}>Detect Mood</button>):(<></>)}
-            {detectMood ? (<CustomWebcam/>): (<></>)}
+            <div className="d-flex justify-content-center my-5 align-items-center" id="display">
+            {showCameraSection ? (
+                <CustomWebcam onHide={handleCameraHide} />
+                ) : (
+                showButton ? (
+                    <div className="">
+                    <button className="button" onClick={handleClick}>Detect Mood</button>
+                    </div>
+                ) : (
+                    <></>
+                )
+                )}
 
-            <div>
+
+            {(!showCameraSection && !showButton) ? (    
+                <div>
            
-            {paragraphs.map((paragraph, index) => {
-        const paragraphLines = paragraph.split('- ').filter(line => line.trim() !== '');
-
-        if (paragraphLines.length > 1) {
-        
-          currentList = paragraphLines.map((line, liIndex) => (
-            <li key={`${index}-${liIndex}`}>{line}</li>
-          ));
-        } else {
-         
-          if (currentList.length > 0) {
-            const list = <ul key={index}>{currentList}</ul>;
-            currentList = []; // Reset the list
-            return [list, <p key={index + 1}>{paragraph}</p>];
-          }
- 
-          return <p key={index}>{paragraph}</p>;
-        }
-        return null; 
-      })}
-      {currentList.length > 0 && <ul>{currentList}</ul>} 
-
-        </div>
+                {paragraphs.map((paragraph, index) => {
+            const paragraphLines = paragraph.split('- ').filter(line => line.trim() !== '');
+    
+            if (paragraphLines.length > 1) {
+            
+              currentList = paragraphLines.map((line, liIndex) => (
+                <li key={`${index}-${liIndex}`}>{line}</li>
+              ));
+            } else {
+             
+              if (currentList.length > 0) {
+                const list = <ul key={index}>{currentList}</ul>;
+                currentList = []; // Reset the list
+                return [list, <p key={index + 1}>{paragraph}</p>];
+              }
+     
+              return <p key={index}>{paragraph}</p>;
+            }   
+            return null; 
+          })}
+          {currentList.length > 0 && <ul>{currentList}</ul>} 
+    
+            </div>
+            ):(<></>)}
+            </div>
+            
         </div>
         
     </>
