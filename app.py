@@ -47,6 +47,6 @@ def index():
 	return {"1":"hello world"}
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 	
-	app.run(port=2222)
+# 	app.run(port=2222)
