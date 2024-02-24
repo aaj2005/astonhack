@@ -6,7 +6,7 @@ import base64
 import numpy as np
 from scipy import misc
 
-#something
+#somethin
 app = Flask(__name__)
 
 CORS(app)
