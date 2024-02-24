@@ -5,5 +5,4 @@ COPY . .
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
 RUN pipenv install --system
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8080"]
-
+CMD ["bash", "-c", "echo 'Running Gunicorn command' && gunicorn app:app -b 0.0.0.0:8080"]
