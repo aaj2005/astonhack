@@ -21,22 +21,22 @@ def createUserInput(emotionArray, emotion_dict):
 	str = f'{round(first*100)}% {maxVal[1]}, {round(second*100)}% {secondMaxVal[1]}'
 	return str
 
-def main():
+def main(emotionArray):
 	emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 	emotionArray = [0, 5, 3, 2, 1, 7, 3, 1]
-	print(createUserInput(emotionArray, emotion_dict))
-	print(readPrompt)
-'''
+	prompt = readPrompt()
+	userInput = createUserInput(emotionArray, emotion_dict)
+
 	client = OpenAI(api_key="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")
 
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
-  ]
-)
+	completion = client.chat.completions.create(
+		model="gpt-3.5-turbo",
+		messages=[
+			{"role": "system", "content": prompt},
+			{"role": "user", "content": userInput}
+		]
+	)
 
-print(completion.choices[0].message)
-'''
+	print(completion.choices[0].message)
+
 main()
