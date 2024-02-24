@@ -4,5 +4,5 @@ The amount of feedback for each emotion should be weighted depending on the aver
 If the emotions are positive, then feedback should be about how to stay positive, things to do when you're in a positive emotion, etc.
 If the emotions are negative, then feedback should be about how to stop feeling that way and start being positive. For example, if the emotions are negative then you could provide breathing exercises to calm them down / refocus their mind, or other applicable feedback.
 Provide your feedback with a break between paragraphs.
-Only include the bullet points.
+Only include 5 bullet points.
 Do not write an introduction or conclusion.
