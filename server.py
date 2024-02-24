@@ -47,7 +47,7 @@ def index():
 
 
 @app.route("/api/frame", methods=["POST","GET"])
-def index():
+def imageProcess():
     if request.method == "GET":
         return "hello world"
 	# print(test)
