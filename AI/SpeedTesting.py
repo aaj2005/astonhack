@@ -58,8 +58,12 @@ def mainLoop(frame, needArray):
         cv2.imshow('Emotion Detection', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        return frame
+        img_encode = cv2.imencode('.jpg', frame)[1] 
+        data_encode = np.array(img_encode) 
+        byte_encode = data_encode.tobytes() 
+        return byte_encode
     
+
 cap = cv2.VideoCapture(0)
 print(type(cap))
 while True:
