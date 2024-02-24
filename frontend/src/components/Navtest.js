@@ -78,7 +78,7 @@ const Navtest = () => {
                         <ul className="navbar-nav justify-content-evenly mx-auto">
                             
                                 <a className="d-none d-lg-block px-4" href="/">
-                                    <img src="/EmotionSense.png" width="auto" height="50px" alt="" loading="lazy"/>
+                                    <img src="/EmotionSense.png" width="auto" height="55px" alt="" loading="lazy"/>
                                 </a>
                             
                         </ul>

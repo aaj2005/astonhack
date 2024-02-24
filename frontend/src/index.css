@@ -154,3 +154,49 @@ code {
 #logo-img {
   z-index: 1046;
 }
+
+.styled-text {
+  line-height: 1.6;
+}
+
+/*  */
+
+p {
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style-type: disc;
+  padding: 0;
+  margin-bottom: 15px;
+
+}
+
+li {
+  margin-bottom: 15px;
+}
+
+.grey {
+  background-color: #7dc0ff;
+}
+
+/* Button Styles */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #3498db;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
