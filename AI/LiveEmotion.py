@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from keras.models import model_from_json
-
+import time
 
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
@@ -26,19 +26,18 @@ def colourBasedEmotion(emotion):
     colourDict = {0: (0, 0, 255), 1: (0, 255, 0), 2: (255, 0, 255), 3: (0, 255, 255), 4: (255,255,255), 5: (255, 0, 0), 6: (0, 165, 255)}
     return colourDict[emotion]
 
-while True:
-    # Find haar cascade to draw bounding box around face
-    ret, frame = cap.read()
-    frame = cv2.resize(frame, (1280, 720))
-    if not ret:
-        break
+def returnArray():
+    print(arrayOfEmotions)
+    return arrayOfEmotions
+
+def takeSinglePhoto(frame):
+    # ret, frame = cap.read()
+    # if not ret:
+    #     return -1
     face_detector = cv2.CascadeClassifier('AI\haarcascade_frontalface_default.xml')
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    # detect faces available on camera
     num_faces = face_detector.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
-
-    # take each face available on the camera and Preprocess it
+    maxindex = -1
     for (x, y, w, h) in num_faces:
         roi_gray_frame = gray_frame[y:y + h, x:x + w]
         cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
@@ -46,9 +45,52 @@ while True:
         # predict the emotions
         emotion_prediction = emotion_model.predict(cropped_img)
         maxindex = int(np.argmax(emotion_prediction))
-        cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
-        cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
+        drawBoxes(x, y, w, h, frame, maxindex)
+        # arrayOfEmotions[maxindex] +=1
+        # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
+        # cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA) 
+    # cv2.imshow('Emotion Detection', frame)
+    return maxindex
 
+def drawBoxes(x, y, w, h, frame, maxindex):
+    cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
+    cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
+
+called = False
+arrayOfEmotions = [0,0,0,0,0,0,0]
+timeEnd = time.time() + 5
+while True:
+    # Find haar cascade to draw bounding box around face
+    time.time()
+    ret, frame = cap.read()
+    frame = cv2.resize(frame, (1024, 576))
+    if not ret:
+        break
+    if called == False:
+        maxindex = takeSinglePhoto(frame)
+        arrayOfEmotions[maxindex] +=1     
+        if time.time() >= timeEnd:
+            returnArray()
+            called = True
+    # face_detector = cv2.CascadeClassifier('AI\haarcascade_frontalface_default.xml')
+    # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # # detect faces available on camera
+    # num_faces = face_detector.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
+
+    # # take each face available on the camera and Preprocess it
+    # for (x, y, w, h) in num_faces:
+    #     roi_gray_frame = gray_frame[y:y + h, x:x + w]
+    #     cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
+
+    #     # predict the emotions
+    #     emotion_prediction = emotion_model.predict(cropped_img)
+    
+        # maxindex = int(np.argmax(emotion_prediction))
+    
+        # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
+        # cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
+    
     cv2.imshow('Emotion Detection', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
