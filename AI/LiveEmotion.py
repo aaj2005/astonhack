@@ -45,12 +45,11 @@ def takeSinglePhoto(frame):
         # predict the emotions
         emotion_prediction = emotion_model.predict(cropped_img)
         maxindex = int(np.argmax(emotion_prediction))
-        drawBoxes(x, y, w, h, frame, maxindex)
         # arrayOfEmotions[maxindex] +=1
         # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
         # cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA) 
     # cv2.imshow('Emotion Detection', frame)
-    return maxindex
+    return [maxindex, x, y, w, h]
 
 def drawBoxes(x, y, w, h, frame, maxindex):
     cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
@@ -67,8 +66,9 @@ while True:
     if not ret:
         break
     if called == False:
-        maxindex = takeSinglePhoto(frame)
-        arrayOfEmotions[maxindex] +=1     
+        dataArray = takeSinglePhoto(frame)
+        drawBoxes(dataArray[1], dataArray[2], dataArray[3], dataArray[4], frame, dataArray[0])
+        arrayOfEmotions[dataArray[0]] +=1     
         if time.time() >= timeEnd:
             returnArray()
             called = True
