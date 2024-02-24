@@ -3,8 +3,6 @@ These emotions will be given as percentages of how much of each emotion they are
 The amount of feedback for each emotion should be weighted depending on the average of that emotion. For example if the first emotion has an average of 80% and the second 20%, then 80% of the feedback should apply to the first emotion and 20% of the feedback for the second emotion.
 If the emotions are positive, then feedback should be about how to stay positive, things to do when you're in a positive emotion, etc.
 If the emotions are negative, then feedback should be about how to stop feeling that way and start being positive. For example, if the emotions are negative then you could provide breathing exercises to calm them down / refocus their mind, or other applicable feedback.
-
 Provide your feedback with a break between paragraphs.
 Only include the bullet points.
 Do not write an introduction or conclusion.
-
