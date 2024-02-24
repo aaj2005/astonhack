@@ -1,6 +1,8 @@
 from AI.SpeedTesting import mainLoop
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+from io import BytesIO
+from flask_socketio import SocketIO
 
 import cv2
 import base64
@@ -10,6 +12,7 @@ from scipy import misc
 
 #something
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 CORS(app)
 
@@ -27,7 +30,7 @@ def webp_to_jpg(webp_base64_string, output_file_path='output.jpg'):
     # Open WebP image using Pillow
     with Image.open(BytesIO(binary_data)) as webp_image:
         # Save as JPG
-        webp_image.convert('RGB').save(output_file_path, format='JPEG')
+        webp_image.convert('RGB').save(output_file_path, format='JPEG') 
 
 # Example usage
 
@@ -39,7 +42,10 @@ def index():
 	# print(test)
 	# print(request.headers)
     data = request.json["imageData"]
-    webp_to_jpg(data)
+    image = Image.open(BytesIO(data))
+    numpy_array = np.array(image)
+
+    webp_to_jpg(numpy_array)
 	# print(jpg_original)
 	# img = cv2.imdecode(jpg_as_np, flags=1)
 	# print(img)
@@ -48,13 +54,78 @@ def index():
     return {"1":"hello world"}
 
 
-@app.route("/api/frame", methods=["POST","GET"])
-def imageProcess():
-    if request.method == "GET":
-        return "hello world"
-    newImg = mainLoop(frame, False)
+@socketio.on('frame')
+def imageProcess(frame_data):
+
+    encoded_data = frame_data.split(',', 1)
     
-    return {"1":"hello world"}
+    # padding = '=' * (4-(len(encoded_data[-1]) % 4))
+    # encoded_data[-1] += padding
+
+    # print("Length:" + str(len(encoded_data[-1])))
+    # print(encoded_data[-1])
+    
+    binary_data = base64.b64decode(encoded_data[-1])
+
+    # Create a BytesIO buffer from the binary data
+    # buffer = BytesIO(binary_data)
+
+    image = Image.open(BytesIO(binary_data))
+    # print(image)
+
+    with BytesIO() as jpeg_buffer:
+        image.save(jpeg_buffer, format="JPEG")
+        jpeg_buffer.seek(0)
+        jpeg_image = Image.open(jpeg_buffer)
+        
+        # Now convert the JPEG image to a NumPy array
+        numpy_array = np.array(jpeg_image)
+
+        # Here, numpy_array is ready and you can use it with mainLoop or any other function
+    newImg = mainLoop(numpy_array)
+
+    img_str = base64.b64encode(newImg).decode('utf-8')
+
+    socketio.emit('processed_frame', img_str)
+
+
+
+# Code without websocket
+# @app.route("/api/frame", methods=["POST"])
+# def imageProcess():
+    
+    
+#     base64_string = request.json["imageData"]
+
+#     _, data = base64_string.split(',', 1)
+
+#     # Decode the base64 data
+#     decoded_data = base64.b64decode(data)
+
+#     # Create a PIL Image
+#     image = Image.open(BytesIO(decoded_data))
+
+#     # print(image)
+
+#     with BytesIO() as jpeg_buffer:
+#         image.save(jpeg_buffer, format="JPEG")
+#         jpeg_buffer.seek(0)
+#         jpeg_image = Image.open(jpeg_buffer)
+        
+#         # Now convert the JPEG image to a NumPy array
+#         numpy_array = np.array(jpeg_image)
+
+#         # Here, numpy_array is ready and you can use it with mainLoop or any other function
+#     newImg = mainLoop(numpy_array)
+
+#     img_str = base64.b64encode(newImg).decode('utf-8')
+
+#     # Send as JSON
+#     return jsonify({"imageData": f"data:image/jpeg;base64,{img_str}"})
+
+
 
 if __name__ == "__main__":
-    app.run(port=2223)
+    # app.run(port=2223)
+    
+    socketio.run(app, port=2223, debug=True)

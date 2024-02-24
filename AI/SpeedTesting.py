@@ -62,7 +62,7 @@ def mainLoop(frame):
     #     return img_encode
     
 
-cap = cv2.VideoCapture(0)
-while True:
-    ret, frame = cap.read()
-    print(mainLoop(frame))
+# cap = cv2.VideoCapture(0)
+# while True:
+#     ret, frame = cap.read()
+    # print(mainLoop(frame))
