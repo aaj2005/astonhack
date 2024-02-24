@@ -131,9 +131,7 @@ const CustomWebcam = ({ onHide }) => {
                     )
                     }
             </div>
-            
         </div>
-      
     </div>
   );
 };
