@@ -33,7 +33,7 @@ def webp_to_jpg(webp_base64_string, output_file_path='output.jpg'):
 @app.route("/", methods=["POST","GET"])
 def index():
     if request.method == "GET":
-        return "hello world"
+        return "hello world indeed"
 	# print(test)
 	# print(request.headers)
     data = request.json["imageData"]
