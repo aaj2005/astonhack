@@ -1,5 +1,5 @@
 from openai import OpenAI
-import math
+import json
 
 def readPrompt():
   with open('API Stuff\Open API\gptPrompt.txt', 'r') as file:
@@ -21,13 +21,21 @@ def createUserInput(emotionArray, emotion_dict):
 	str = f'{round(first*100)}% {maxVal[1]}, {round(second*100)}% {secondMaxVal[1]}'
 	return str
 
+def formatOutput(str):
+	# Split the string by the content=
+	split_by_content = str.split("content=\"")
+	# Get the content part
+	content = split_by_content[1].split("\",")[0].strip("'")
+	return content
+
 def main(emotionArray):
 	emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
-	emotionArray = [0, 5, 3, 2, 1, 7, 3, 1]
+	# example array
+	# emotionArray = [0, 5, 3, 2, 1, 7, 3, 1] 
 	prompt = readPrompt()
 	userInput = createUserInput(emotionArray, emotion_dict)
 
-	client = OpenAI(api_key="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")
+	client = OpenAI(api_key="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")
 
 	completion = client.chat.completions.create(
 		model="gpt-3.5-turbo",
@@ -36,7 +44,8 @@ def main(emotionArray):
 			{"role": "user", "content": userInput}
 		]
 	)
+	output = str(completion.choices[0].message)
+	formattedOutput = formatOutput(output)
+	return formattedOutput
 
-	print(completion.choices[0].message)
-
-main()
+#print(main())
