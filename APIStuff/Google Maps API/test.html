@@ -1,26 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
-</head>
-<body>
-        <script type="py">
-            import pyscript
-            from pyscript import *
-            from datetime import datetime
-            def func():
-                inputString = "restaurants in birmingham"
-                src = str("https://www.google.com/maps/embed/v1/search?q=" + str(inputString) + "&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0")
-                return src
-            print(func())
-            pyscript.write('label', func)
-        </script>
-    
-    <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/search?q=fun%20things%20to%20do&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0"></iframe>
-    <iframe width="600" height="450" style="border:0;" allowfullscreen="" src='label' loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</body>
+<html>
+    <head>
+      <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+      <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    </head>
+
+  <body>
+    <b><p>Today is <u><label id='today'></label></u></p></b>
+    <py-script>
+def pr():
+        return "hello"
+import datetime as dt
+pyscript.write('today', dt.date.today().strftime('%A %B %d, %Y'))
+pyscript.write('label', pr())
+    </py-script>
+
+    <iframe
+    width="600"
+    height="450"
+    style="border:0"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps/embed/v1/place?key=
+        &q=Space+Needle,Seattle+WA">
+</iframe>
+  </body>
 </html>
