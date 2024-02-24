@@ -195,10 +195,12 @@ li {
   color: #fff;
   background-color: #3498db;
   transition: background-color 0.3s;
+  transition: .2s ease-in-out 0s;
 }
 
 .button:hover {
-  background-color: #2980b9;
+  background-color: #00a2ff;
+  transform: scale(1.25);
 }
 
 #display {
