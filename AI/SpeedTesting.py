@@ -30,7 +30,6 @@ def takeSinglePhoto(frame):
     w = -1
     h = -1
     for (x, y, w, h) in num_faces:
-        frame = cv2.resize(frame, (1024, 576))
         roi_gray_frame = gray_frame[y:y + h, x:x + w]
         cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
 
@@ -39,34 +38,31 @@ def takeSinglePhoto(frame):
         maxindex = int(np.argmax(emotion_prediction))
     return [maxindex, x, y, w, h]
 
-def mainLoop(frame, needArray):
+def mainLoop(frame):
     
-    #arrayOfEmotions = [0,0,0,0,0,0,0]
-    # Find haar cascade to draw bounding box around face
-
-
-    # maxindex, x, y, w, h = takeSinglePhoto(frame)
-    return takeSinglePhoto(frame)
-    # if x != -1 and y != -1 and w != -1 and h != -1:
-    #     frame = cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
-    #     if maxindex != -1:
-    #         frame = cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
-    #     arrayOfEmotions[maxindex] +=1     
-    # # If more than 5 seconds have elapsed
-    # if needArray:
-    #     return arrayOfEmotions
-    # cv2.imshow('Emotion Detection', frame)
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-    #     break
-    # img_encode = cv2.imencode('.jpg', frame)[1] 
-    # data_encode = np.array(img_encode) 
-    # byte_encode = data_encode.tobytes() 
-    # return byte_encode
+    arrayOfEmotions = [0,0,0,0,0,0,0]
+    frame = cv2.resize(frame, (1024, 576))
+    while True:
+        # Find haar cascade to draw bounding box around face
+        maxindex, x, y, w, h = takeSinglePhoto(frame)
+        if x != -1 and y != -1 and w != -1 and h != -1:
+            frame = cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
+            if maxindex != -1:
+                frame = cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
+            arrayOfEmotions[maxindex] +=1     
+        # If more than 5 seconds have elapsed
+        # if needArray:
+        #     return arrayOfEmotions
+        cv2.imshow('Emotion Detection', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        img_encode = cv2.imencode('.jpg', frame)[1] 
+        data_encode = np.array(img_encode) 
+        # byte_encode = data_encode.tobytes() 
+        return img_encode
     
 
 cap = cv2.VideoCapture(0)
-print(type(cap))
 while True:
     ret, frame = cap.read()
-    
-    mainLoop(frame, False)
+    print(mainLoop(frame))
