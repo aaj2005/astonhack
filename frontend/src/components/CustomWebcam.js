@@ -23,27 +23,23 @@ const CustomWebcam = () => {
          } else {
             setCount(count+1)
             try {
-                const response = await fetch('https://0a9d-134-151-21-91.ngrok-free.app/',
-                    {method:"POST",
-                    
+                const response = await fetch('https://0a9d-134-151-21-91.ngrok-free.app/',{
+                    method:"POST",
                     body: JSON.stringify({ imageData: webcamRef.current.getScreenshot() }),
                     headers: {
                         "Content-type": "application/json"
                     }
-                
                     }
                 )
             } catch (error) {
                 console.error('Error fetching data:', error);
-            } //finally {
-                //setLoading(true)
-            //}
+            } 
         }
     }
 
     const intervalId = setInterval(() => {
         fetchData();
-    }, 33);
+    }, 5000);
     //  33 for 30fps
 
     return () => clearInterval(intervalId);

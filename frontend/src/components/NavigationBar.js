@@ -1,7 +1,7 @@
 const NavigationBar = () => {
     return (
 <div>
-    <nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-primary">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src="/emotionsense.png"/>
