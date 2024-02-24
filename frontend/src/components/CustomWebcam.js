@@ -25,7 +25,7 @@ const CustomWebcam = ({ onHide }) => {
          } else {
             setCount(count+1)
             try {
-                const response = await fetch('https://0a9d-134-151-21-91.ngrok-free.app/',{
+                const response = await fetch('http://127.0.0.1:2223/api/frame',{
                     method:"POST",
                     body: JSON.stringify({ imageData: webcamRef.current.getScreenshot() }),
                     headers: {
