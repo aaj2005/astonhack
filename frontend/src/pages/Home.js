@@ -22,7 +22,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://0a9d-134-151-21-91.ngrok-free.app/', {method:"POST"}); 
+        const response = await fetch('http://127.0.0.1:2223', {method:"POST"}); 
         const result = await response.json();
         console.log(result)
         setData(result);
