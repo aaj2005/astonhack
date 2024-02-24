@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 </head>
 <body>
-    <py-script>
-        inputString = "restaurants%20in%20birmingham"
-        src = "https://www.google.com/maps/embed/v1/search?q=restaurants%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0"
-        #print(src)
-        pyscript.write('label', src)
-    </py-script>
+        <script type="py">
+            import pyscript
+            from pyscript import *
+            from datetime import datetime
+            def func():
+                inputString = "restaurants in birmingham"
+                src = str("https://www.google.com/maps/embed/v1/search?q=" + str(inputString) + "&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0")
+                return src
+            print(func())
+            pyscript.write('label', func)
+        </script>
     
     <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/search?q=fun%20things%20to%20do&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0"></iframe>
-    <iframe src='label' width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe width="600" height="450" style="border:0;" allowfullscreen="" src='label' loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </body>
 </html>
