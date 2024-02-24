@@ -1,6 +1,6 @@
 FROM python:3.9
 RUN pip install pipenv
-WORKDIR /app
+WORKDIR .
 COPY . .
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
