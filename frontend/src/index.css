@@ -19,3 +19,8 @@ code {
 .navbar-brand img {
   max-width: 250px;
 }
+
+.camera {
+  border-radius: 10px;
+  overflow: hidden;
+}
