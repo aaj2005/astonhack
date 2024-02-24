@@ -9,6 +9,8 @@ gunicorn = "*"
 opencv-python = "*"
 scipy = "*"
 pillow = "*"
+numpy = "*"
+opencv-python-headless = "*"
 
 [dev-packages]
 
