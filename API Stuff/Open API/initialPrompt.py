@@ -48,4 +48,4 @@ def main(emotionArray):
 	formattedOutput = formatOutput(output)
 	return formattedOutput
 
-#print(main())
+print(main())
