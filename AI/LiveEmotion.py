@@ -51,56 +51,23 @@ def takeSinglePhoto(frame):
     # cv2.imshow('Emotion Detection', frame)
     return [maxindex, x, y, w, h]
 
-def mainLoop(frame):
-    called = False
+def mainLoop(frame, needArray=False):
     arrayOfEmotions = [0,0,0,0,0,0,0]
-    timeEnd = time.time() + 5
     while True:
         # Find haar cascade to draw bounding box around face
-        time.time()
-        ret, frame = True, frame
         frame = cv2.resize(frame, (1024, 576))
-        if not ret:
-            break
-        if called == False:
-            maxindex, x, y, w, h = takeSinglePhoto(frame)
-            if x != -1 and y != -1 and w != -1 and h != -1:
-                frame = cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
-                if maxindex != -1:
-                    frame = cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
-                arrayOfEmotions[maxindex] +=1     
-            # If more than 5 seconds have elapsed
-            if time.time() >= timeEnd:
-                called = True
-                return arrayOfEmotions
-            return frame
-        # face_detector = cv2.CascadeClassifier('AI\haarcascade_frontalface_default.xml')
-        # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        # # detect faces available on camera
-        # num_faces = face_detector.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
+        maxindex, x, y, w, h = takeSinglePhoto(frame)
+        if x != -1 and y != -1 and w != -1 and h != -1:
+            frame = cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
+            if maxindex != -1:
+                frame = cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
+            arrayOfEmotions[maxindex] +=1     
+        # If more than 5 seconds have elapsed
+        if needArray:
+            return arrayOfEmotions
+        return cv2.imencode('.jpg', frame)[1]
 
-        # # take each face available on the camera and Preprocess it
-        # for (x, y, w, h) in num_faces:
-        #     roi_gray_frame = gray_frame[y:y + h, x:x + w]
-        #     cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
-
-        #     # predict the emotions
-        #     emotion_prediction = emotion_model.predict(cropped_img)
-        
-            # maxindex = int(np.argmax(emotion_prediction))
-        
-            # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
-            # cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
-        
-        # cv2.imshow('Emotion Detection', frame)
-        # if cv2.waitKey(1) & 0xFF == ord('q'):
-        #     break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-frame = cv2.imread("AI\img.jpg")
-frame = mainLoop(frame)
-cv2.imwrite("newImg.png", frame)
+# frame = cv2.imread("AI\img.jpg")
+# frame = mainLoop(frame)
+# cv2.imwrite("newImg.png", frame)
