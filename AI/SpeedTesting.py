@@ -41,10 +41,9 @@ def takeSinglePhoto(frame):
 def mainLoop(frame):
     
     arrayOfEmotions = [0,0,0,0,0,0,0]
+    frame = cv2.resize(frame, (1024, 576))
     while True:
         # Find haar cascade to draw bounding box around face
-
-
         maxindex, x, y, w, h = takeSinglePhoto(frame)
         if x != -1 and y != -1 and w != -1 and h != -1:
             frame = cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), colourBasedEmotion(maxindex), 4)
@@ -59,12 +58,11 @@ def mainLoop(frame):
             break
         img_encode = cv2.imencode('.jpg', frame)[1] 
         data_encode = np.array(img_encode) 
-        byte_encode = data_encode.tobytes() 
-        return byte_encode
+        # byte_encode = data_encode.tobytes() 
+        return img_encode
     
 
 cap = cv2.VideoCapture(0)
 while True:
     ret, frame = cap.read()
-    frame = cv2.resize(frame, (1024, 576))
     print(mainLoop(frame))

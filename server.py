@@ -1,3 +1,4 @@
+from AI.SpeedTesting import mainLoop
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 
@@ -5,6 +6,7 @@ import cv2
 import base64
 import numpy as np
 from scipy import misc
+
 
 #something
 app = Flask(__name__)
@@ -47,18 +49,11 @@ def index():
 
 
 @app.route("/api/frame", methods=["POST","GET"])
-def index():
+def imageProcess():
     if request.method == "GET":
         return "hello world"
-	# print(test)
-	# print(request.headers)
-    data = request.json["imageData"]
-    webp_to_jpg(data)
-	# print(jpg_original)
-	# img = cv2.imdecode(jpg_as_np, flags=1)
-	# print(img)
-	# cv2.imwrite('./images.webp', img)
-
+    newImg = mainLoop(frame, False)
+    
     return {"1":"hello world"}
 
 if __name__ == "__main__":
