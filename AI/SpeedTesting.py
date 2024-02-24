@@ -30,6 +30,7 @@ def takeSinglePhoto(frame):
     w = -1
     h = -1
     for (x, y, w, h) in num_faces:
+        frame = cv2.resize(frame, (1024, 576))
         roi_gray_frame = gray_frame[y:y + h, x:x + w]
         cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
 
@@ -38,7 +39,7 @@ def takeSinglePhoto(frame):
         maxindex = int(np.argmax(emotion_prediction))
     return [maxindex, x, y, w, h]
 
-def mainLoop(frame):
+def mainLoop(frame, needArray):
     
     arrayOfEmotions = [0,0,0,0,0,0,0]
     while True:
@@ -52,14 +53,16 @@ def mainLoop(frame):
                 frame = cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, colourBasedEmotion(maxindex), 2, cv2.LINE_AA)
             arrayOfEmotions[maxindex] +=1     
         # If more than 5 seconds have elapsed
-        # if needArray:
-        #     return arrayOfEmotions
+        if needArray:
+            return arrayOfEmotions
         cv2.imshow('Emotion Detection', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         return frame
+    
 cap = cv2.VideoCapture(0)
+print(type(cap))
 while True:
     ret, frame = cap.read()
-    frame = cv2.resize(frame, (1024, 576))
-    print(mainLoop(frame))
+    
+    mainLoop(frame, False)
