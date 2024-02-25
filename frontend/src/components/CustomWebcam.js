@@ -1,6 +1,5 @@
 import Webcam from "react-webcam";
 import { useCallback, useEffect, useRef, useState } from "react"; // import useCallback
-import socketIOClient from 'socket.io-client';
 import BoundingBox from "./BoundingBox";
 
 const CustomWebcam = ({ onHide }) => {
@@ -11,19 +10,6 @@ const CustomWebcam = ({ onHide }) => {
   const maxCount = 500
   const [data, setData] = useState(null)
 
-  
-
-  const retake = () => {
-    setImgSrc(null);
-  };
-
-
-  
-  const arrayEquals = (a, b) => {
-    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((value, index) => value === b[index]);
-  };
-
-// test
   useEffect(() => {
 
     const fetchData = async () => {
@@ -74,7 +60,7 @@ const CustomWebcam = ({ onHide }) => {
   // 1024, 576
 
 
-// test
+
   // create a capture function
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
