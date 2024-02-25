@@ -112,7 +112,6 @@ def getGPTOutput():
 
 @app.route("/api/frame", methods=["POST"])
 def handGestureGen(): # Pass in webcam image
-    topGesturesArray = [0,0,0,0] #up, down, palm, none
     base64_string = request.json["imageData"]
     _, data = base64_string.split(',', 1)
     # Decode the base64 data
@@ -129,11 +128,19 @@ def handGestureGen(): # Pass in webcam image
         numpy_array = np.array(jpeg_image)
 
         # Here, numpy_array is ready and you can use it with mainLoop or any other function
-    topGesturesArray = list(map(str, mainHandLoop(numpy_array, topGesturesArray)))
-    
+    numpy_array = getCumulativeArray
+    topGesturesArray = list(map(str, mainHandLoop(numpy_array)))
+    index_max = np.argmax(topGesturesArray)
+    maxGesture = topGesturesArray.max()
+    arraySum = topGesturesArray.sum()
+    if (maxGesture / arraySum) > 0.3: #Threshold val, where lower is less strict
+        prompt = m
+    else:
+        return
+
 
     # Send as JSON
-    return img_str
+    # return img_str
 
     
     
