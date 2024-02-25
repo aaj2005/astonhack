@@ -1,6 +1,9 @@
 from openai import OpenAI
 import json
 
+from dotenv import load_dotenv
+import os
+
 def readPrompt():
   
   prompt = '''You will be given two emotions, and you will provide mental health feedback depending on these emotions.
@@ -46,7 +49,15 @@ def returnPromt(emotionArray):
 	prompt = readPrompt()
 	userInput = createUserInput(emotionArray, emotion_dict)
 
-	client = OpenAI(api_key="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")
+	load_dotenv()
+
+
+
+
+# Access the variables using the os.environ dictionary
+	api_key = os.environ.get("API_KEY")
+
+	client = OpenAI(api_key=api_key)
 
 	completion = client.chat.completions.create(
 		model="gpt-3.5-turbo",

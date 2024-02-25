@@ -218,10 +218,16 @@ li {
   border: 7px solid;
 }
 
-.shift-to-center {
-  
-}
-
 .padding-yo {
   padding-bottom: 120px;
+}
+
+.advice {
+  font-size: 23px;
+}
+
+@media only screen and (max-width: 600px) {
+  .responseText {
+    margin-top: 50px;
+  }
 }

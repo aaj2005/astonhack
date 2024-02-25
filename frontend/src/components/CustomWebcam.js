@@ -81,7 +81,7 @@ const CustomWebcam = ({ onHide }) => {
                       <div className="text-center">
                     <div className="" style={{position: 'relative'}}>
                       <Webcam videoConstraints={videoConstraints} ref={webcamRef} class="camera"/>
-                      {data && data[0] != 0 && <BoundingBox class="shift-to-center" boxData={data} />}
+                      {data && data[0] != -1 && <BoundingBox class="shift-to-center" boxData={data} />}
                       <h4>Hold still while we analyse your mood!</h4>
                     </div></div>) : (<></>)}
                     

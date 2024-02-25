@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomWebcam from '../components/CustomWebcam';
 import Hero from '../components/Hero'
+import Map from '../components/Map';
 
 const Home = () => {
 
@@ -12,6 +13,7 @@ const Home = () => {
   const [emotionsArray, setEmotionsArray] = useState(null)
   const [prompt, setPrompt] = useState(null)
   const [paragraphs, setParagraphs] = useState(null)
+  
   const handleClick = event => {
     setShowCameraSection(true);
     setShowButton(false)
@@ -46,38 +48,31 @@ const Home = () => {
                 .then(response => response.json())
                 .then(data => {
                   // Now 'data' contains the parsed JSON response
-                  console.log(data)
+                  const text = JSON.stringify(data)
+                  const stringWithoutFirstAndLast = text.slice(1, -1);
+                  console.log(typeof text)
+                  const paragraphsArray = stringWithoutFirstAndLast.split('\\\\n\\\\n')//.filter(para => para.trim() !== '');
+                  console.log(paragraphsArray)
                   setPrompt(data)
-                  getParagraphs(data)
+                  setParagraphs(paragraphsArray)
+                  // getParagraphs(data)
                 })  
-      const result = await response.json();
-      console.log(result)
-      setPrompt(result);
-      getParagraphs(result)
+      // const result = await response.json();
+      // console.log(result)
+      // setPrompt(result);
+      // getParagraphs(result.text)
       
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-
+  
   const handleCameraHide = () => {
     setShowButton(false)
     setShowCameraSection(false)
     fetchEmotionsArray()
   }
-
-
-
-    const getParagraphs = (input) => {
-      const temp = input.split('\n\n').filter(para => para.trim() !== '')
-      
-      setParagraphs(temp)
-      console.log(temp)
-    }
-    
-
-    let currentList = [];
 
     return (
         <>
@@ -101,41 +96,31 @@ const Home = () => {
                 )
                 )}
 
+            { paragraphs ? (<div className='responseText'>
+              {paragraphs.map((paragraph, index) => (
+                <p class="my-4 advice" key={index} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
+              ))}
+            </div>):(
+            
+            <></>)}
 
-            {/* {(!showCameraSection && !showButton) ? (     */}
-            {paragraphs ? (
-                <div>
-                {paragraphs.map((paragraph, index) => {
-            const paragraphLines = paragraph.split('\n\n').filter(line => line.trim() !== '');
-    
-            if (paragraphLines.length > 1) {
+            {!paragraphs && !showCameraSection && !showButton ? (
+              <>
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+
             
-              currentList = paragraphLines.map((line, liIndex) => (
-                <li key={`${index}-${liIndex}`}>{line}</li>
-              ));
-            } else {
-             
-              if (currentList.length > 0) {
-                const list = <ul key={index}>{currentList}</ul>;
-                currentList = []; // Reset the list
-                return [list, <p key={index + 1}>{paragraph}</p>];
-              }
-     
-              return <p key={index}>{paragraph}</p>;
-            }   
-            return null; 
-          })}
-          {currentList.length > 0 && <ul>{currentList}</ul>} 
-    
-            </div>)
-            :
-            (<></>)}
             </div>
-            
+            <div>
+              {emotionsArray && paragraphs ? (<Map array={emotionsArray}/>):(<></>)}
+            </div>
         </div>
-       
     </>
-       
     )
 }
 
