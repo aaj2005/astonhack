@@ -1,28 +1,72 @@
 <html>
     <head>
-      <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-      <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+      <style>
+        #text{
+          text-decoration: none;
+          font-size: 2rem;
+          color: black;
+        }
+        #text:hover{
+          text-decoration: underline;
+        }
+      </style>
+
     </head>
 
   <body>
-    <b><p>Today is <u><label id='today'></label></u></p></b>
-    <py-script>
-def pr():
-        return "hello"
-import datetime as dt
-pyscript.write('today', dt.date.today().strftime('%A %B %d, %Y'))
-pyscript.write('label', pr())
-    </py-script>
-
-    <iframe
-    width="600"
-    height="450"
-    style="border:0"
-    loading="lazy"
-    allowfullscreen
-    referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps/embed/v1/place?key=
-        &q=Space+Needle,Seattle+WA">
-</iframe>
+    <div>
+      <iframe id="map"
+        width="100%"
+        height="450"
+        style="border:0"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="">
+      </iframe>
+    </div>
+    
+  <a id="text" target="_blank">ijji</a>
   </body>
+
+  <script>
+    let urlsAngry = ['https://www.google.com/maps/embed/v1/search?q=parks%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=gyms%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=museums%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsDisgusted = ['https://www.google.com/maps/embed/v1/search?q=places%20to%20eat%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=spas%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=theatres%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsFearful = ['https://www.google.com/maps/embed/v1/search?q=religious%20centres%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=coffee%20shops%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=animal%20shelters%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsHappy = ['https://www.google.com/maps/embed/v1/search?q=shopping%20centres%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=fun%20things%20to%20do%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=entertainment%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsNeutral = ['https://www.google.com/maps/embed/v1/search?q=restaurants%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=cinema%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=theme%20parks%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsSad = ['https://www.google.com/maps/embed/v1/search?q=parks%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=artistic%20spaces%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=pubs%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    let urlsSurprised = ['https://www.google.com/maps/embed/v1/search?q=golf%20course%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=hidden%20gems%20in%20birmingham&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0', 'https://www.google.com/maps/embed/v1/search?q=zoo%20in%20birmingham%20england&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0'];
+
+    randNo = Math.floor(Math.random() * 3)
+    document.getElementById("map").src = urlsSurprised[randNo]
+    document.getElementById("map").style
+
+    let websitesAngry = ['https://www.psychologytoday.com', 'https://www.mindful.org', 'https://www.mindtools.com'];
+
+    let websitesDisgusted = ['https://www.talkspace.com', 'https://www.happify.com', 'https://www.nationalgeographic.com'];
+
+    let websitesFearful = ['https://www.betterhelp.com', 'https://www.anxiety.org', 'https://www.calm.com'];
+
+    let websitesHappy = ['https://www.goodnewsnetwork.org', 'https://www.brainpickings.org', 'https://www.positive.news'];
+
+    let websitesNeutral = ['https://www.ted.com/talks', 'http://www.duolingo.com', 'https://www.boredpanda.com'];
+
+    let websitesSad = ['https://www.reddit.com/r/mademesmile', 'https://www.7cups.com', 'https://www.playbuzz.com'];
+
+    let websitesSurprised = ['https://www.bbcearth.com/', 'https://www.atlasobscura.com', 'https://www.dailygood.org'];
+
+    randNo = Math.floor(Math.random() * 3)
+    website = websitesSurprised[randNo]
+    document.getElementById("text").href = website
+    document.getElementById("text").innerHTML = website
+
+  </script>
 </html>
