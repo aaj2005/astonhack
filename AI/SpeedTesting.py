@@ -41,7 +41,7 @@ def takeSinglePhoto(frame):
 def mainLoop(frame):
     
     # arrayOfEmotions = [0,0,0,0,0,0,0]
-    # frame = cv2.resize(frame, (1024, 576))
+    frame = cv2.resize(frame, (1024, 576))
     # while True:
     #     # Find haar cascade to draw bounding box around face
     return takeSinglePhoto(frame)

@@ -207,3 +207,21 @@ li {
   /* width: 1290px; */
   height: 450px;
 }
+
+.bounding-box {
+  /* position: absolute; */
+  /* border: 20px solid red; You can customize the border color and thickness */
+  /* border-width: 30px; */
+  /* box-sizing: border-box; */
+  border-radius: 20px;
+  position: absolute;
+  border: 7px solid;
+}
+
+.bounding-text {
+  color: red;
+  transform: translateX(-50px), translateY(-8px);
+  
+}
+
+
