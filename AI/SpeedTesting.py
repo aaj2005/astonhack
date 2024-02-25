@@ -7,13 +7,13 @@ emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutra
 
 
 # load json and create model
-json_file = open("AI\model\emotion_model.json", 'r')
+json_file = open("AI/model/emotion_model.json", 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 emotion_model = model_from_json(loaded_model_json)
 
 # load weights into new model
-emotion_model.load_weights("AI\model\emotion_model.h5")
+emotion_model.load_weights("AI/model/emotion_model.h5")
 print("Loaded model from disk")
 
 def colourBasedEmotion(emotion):
@@ -21,7 +21,7 @@ def colourBasedEmotion(emotion):
     return colourDict[emotion]
 
 def takeSinglePhoto(frame):
-    face_detector = cv2.CascadeClassifier('AI\haarcascade_frontalface_default.xml')
+    face_detector = cv2.CascadeClassifier('AI/haarcascade_frontalface_default.xml')
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     num_faces = face_detector.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
     maxindex = -1

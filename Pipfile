@@ -12,6 +12,8 @@ pillow = "*"
 numpy = "*"
 opencv-python-headless = "*"
 flask-cors = "*"
+keras = "*"
+tensorflow = "*"
 
 [dev-packages]
 
