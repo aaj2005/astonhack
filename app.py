@@ -10,7 +10,7 @@ import numpy as np
 
 
 
-#somethin
+#something
 app = Flask(__name__)
 
 CORS(app)
