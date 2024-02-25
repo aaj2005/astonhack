@@ -218,10 +218,10 @@ li {
   border: 7px solid;
 }
 
-.bounding-text {
-  color: red;
-  transform: translateX(-50px), translateY(-8px);
+.shift-to-center {
   
 }
 
-
+.padding-yo {
+  padding-bottom: 120px;
+}

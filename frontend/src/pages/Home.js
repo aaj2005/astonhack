@@ -59,7 +59,7 @@ const Home = () => {
         <div class="container">
             <div className='text-center my-5'>
                 <h5>Mental health is important, and sometimes it's hard to talk about how we feel.</h5>
-                <h5>EmotionSense uses facial recognition to detect your mood, and provide personalised feedback to keep you in check.</h5>
+                <h5 className='padding-yo'>EmotionSense uses facial recognition to detect your mood, and provide personalised feedback to keep you in check.</h5>
                 
             </div>
             <div className="d-flex justify-content-center my-5 align-items-center" id="display">

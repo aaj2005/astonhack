@@ -25,6 +25,7 @@ const BoundingBox = ({ boxData }) => {
           style={{
             top: `${y}px`,
             left: `${x}px`,
+            left: `calc(8vw + ${x}px)`,
             width: `${width}px`,
             height: `${height}px`,
             borderColor: colour,
