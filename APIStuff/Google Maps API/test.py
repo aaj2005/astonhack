@@ -1,13 +1,21 @@
 import googlemaps
 from datetime import datetime
+from pprint import pprint
 
-gmaps = googlemaps.Client(key="AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0")
+# gmaps = googlemaps.Client(key="AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0")
 
-# Geocoding an address
-geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
+# # Geocoding an address
+# geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
 
 
-gmaps.geocode()
+# gmaps.geocode()
+
+def func():
+    inputString = "restaurants%20in%20birmingham"
+    src = "https://www.google.com/maps/embed/v1/search?q=" + str(inputString) + "&key=AIzaSyDTkAgcaDrydO2drr-qO2SSilM55nNTeQ0"
+    return src
+
+print(func)
 # # Look up an address with reverse geocoding
 # reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
 
@@ -24,4 +32,4 @@ gmaps.geocode()
 #                                                     locality='Mountain View', 
 #                                                     enableUspsCass=True)
 
-print(geocode_result)
+# print(geocode_result)
