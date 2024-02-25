@@ -1,4 +1,5 @@
-from AI.SpeedTesting import mainLoop
+from AI.SpeedTesting import mainLoop, getCumulativeArray
+from APIStuff.OpenAPI.initialPrompt import main
 from flask import Flask, request
 from flask_cors import CORS
 from io import BytesIO
@@ -48,7 +49,7 @@ def index():
 
 
 
-# Code without websocket
+
 @app.route("/api/frame", methods=["POST"])
 def imageProcess():
     
@@ -74,6 +75,42 @@ def imageProcess():
     # Send as JSON
     return img_str
 
+
+@app.route("/api/emotionsArray", methods=["POST"])
+def getEmotionsArray():
+
+    array = getCumulativeArray()
+    array = main()
+
+    newImg = list(map(str, array))
+    img_str = json.dumps(newImg)
+
+    return img_str
+
+@app.route("/api/promt", methods=["POST"])
+def getGPTOutput():
+
+    # Get array from json request - might not work ahahahh loser
+    jsonResponse = request.json()
+
+    # Parse the JSON data
+    parsedData = json.loads(jsonResponse)
+
+    # Access the array
+    dataArray = parsedData['data']
+
+    prompt = main(dataArray)
+
+    # newImg = list(map(str, array))
+    # img_str = json.dumps(newImg)
+
+
+
+    return img_str
+
+
+    
+    
 
 if __name__ == "__main__":
     app.run(port=2223)

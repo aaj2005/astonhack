@@ -2,7 +2,7 @@ const Footer = () => {
 
         return (
 
-<footer class="footer">
+<footer class="footer mt-5 pt-5">
 
 
   <section class="grey py-4 mt-5 border-top border-light">

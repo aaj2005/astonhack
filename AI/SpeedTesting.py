@@ -5,6 +5,7 @@ import time
 
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
+cumulativeEmotionArray = [0] *7
 
 # load json and create model
 json_file = open("AI/model/emotion_model.json", 'r')
@@ -36,7 +37,13 @@ def takeSinglePhoto(frame):
         # predict the emotions
         emotion_prediction = emotion_model.predict(cropped_img)
         maxindex = int(np.argmax(emotion_prediction))
+        if (maxindex != -1):
+            cumulativeEmotionArray[maxindex] += 1
     return [maxindex, x, y, w, h]
+
+
+def getCumulativeArray():
+    return cumulativeEmotionArray
 
 def mainLoop(frame):
     
