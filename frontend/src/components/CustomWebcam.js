@@ -1,22 +1,17 @@
 import Webcam from "react-webcam";
 import { useCallback, useEffect, useRef, useState } from "react"; // import useCallback
+import BoundingBox from "./BoundingBox";
 
 const CustomWebcam = ({ onHide }) => {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
   const [loading, setLoading] = useState(true)
   const [count, setCount] = useState(0)
-  const maxCount = 200
+  const maxCount = 500
+  const [data, setData] = useState(null)
 
-
-  const retake = () => {
-    setImgSrc(null);
-  };
-
-
-
-// test
   useEffect(() => {
+
     const fetchData = async () => {
         console.log(count)
          if (count == maxCount) {
@@ -25,6 +20,7 @@ const CustomWebcam = ({ onHide }) => {
          } else {
             setCount(count+1)
             try {
+               
                 const response = await fetch('http://127.0.0.1:2223/api/frame',{
                     method:"POST",
                     body: JSON.stringify({ imageData: webcamRef.current.getScreenshot() }),
@@ -33,6 +29,13 @@ const CustomWebcam = ({ onHide }) => {
                     }
                     }
                 )
+                .then(response => response.json())
+                .then(data => {
+                  // Now 'data' contains the parsed JSON response
+                  console.log(data)
+                  setData(data);
+                })  
+                
             } catch (error) {
                 console.error('Error fetching data:', error);
             } 
@@ -41,15 +44,23 @@ const CustomWebcam = ({ onHide }) => {
     }
 
     const intervalId = setInterval(() => {
-        fetchData();
-    }, 33);
+        fetchData();  
+    }, 10);
     //  33 for 30fps
 
     return () => clearInterval(intervalId);
   })
 
+  const videoConstraints = {
+    // Set facingMode to 'user' or 'environment' depending on the desired camera
+    facingMode: 'user', // 'user' for the front camera, 'environment' for the back camera
+    width: 1024, // Set a small width
+    height: 576, // Set a small height
+  };
+  // 1024, 576
 
-// test
+
+
   // create a capture function
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -58,23 +69,26 @@ const CustomWebcam = ({ onHide }) => {
   return (
     <div className="container mt-5">
 
-        <div class="row" id="display">
-            <div class="col-6">
+       
+            <div class="">
                     {imgSrc ? (
                     <img src={imgSrc} alt="webcam" />
                 ) : (
                     <>
                     {(count < maxCount) ? (
-                    <div className="text-center">
-                    <Webcam height={400} width={600} ref={webcamRef} class="camera" />
-                    <p>Hold still for 8 seconds!</p>
-                    </div>) : (<></>)}
+                      <div className="text-center">
+                    <div className="" style={{position: 'relative'}}>
+                      <Webcam videoConstraints={videoConstraints} ref={webcamRef} class="camera"/>
+                      {data && data[0] != 0 && <BoundingBox class="shift-to-center" boxData={data} />}
+                      <h4>Hold still while we analyse your mood!</h4>
+                    </div></div>) : (<></>)}
+                    
                     </>
 
                 )}
 
             </div>
-            <div class="col-6 d-flex align-items-center justify-content-center">
+            {/* <div class="">
                     {loading ? (
                         <div class="text-center">
                             <p>Capturing face...</p>
@@ -85,9 +99,8 @@ const CustomWebcam = ({ onHide }) => {
                         <></>
                     )
                     }
-            </div>
-        </div>
-      
+            </div> */}
+        
     </div>
   );
 };

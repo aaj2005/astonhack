@@ -19,22 +19,22 @@ const Home = () => {
     setShowCameraSection(false)
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:2223', {method:"POST"}); 
-        const result = await response.json();
-        console.log(result)
-        setData(result);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('http://127.0.0.1:2223', {method:"POST"}); 
+  //       const result = await response.json();
+  //       console.log(result)
+  //       setData(result);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
     const jsonResponse = `
   I'm sorry to hear that you're feeling predominantly sad. Here are some suggestions to help you cope with and address these negative emotions:
@@ -59,7 +59,7 @@ const Home = () => {
         <div class="container">
             <div className='text-center my-5'>
                 <h5>Mental health is important, and sometimes it's hard to talk about how we feel.</h5>
-                <h5>EmotionSense uses facial recognition to detect your mood, and provide personalised feedback to keep you in check.</h5>
+                <h5 className='padding-yo'>EmotionSense uses facial recognition to detect your mood, and provide personalised feedback to keep you in check.</h5>
                 
             </div>
             <div className="d-flex justify-content-center my-5 align-items-center" id="display">
@@ -106,7 +106,7 @@ const Home = () => {
             </div>
             
         </div>
-        
+       
     </>
        
     )
