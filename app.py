@@ -1,4 +1,5 @@
 from AI.SpeedTesting import mainLoop, getCumulativeArray
+from HandAI.main import mainHandLoop
 from APIStuff.OpenAPI.initialPrompt import main
 from flask import Flask, request
 from flask_cors import CORS
@@ -108,6 +109,31 @@ def getGPTOutput():
 
     return img_str
 
+
+@app.route("/api/frame", methods=["POST"])
+def handGestureGen(): # Pass in webcam image
+    topGesturesArray = [0,0,0,0] #up, down, palm, none
+    base64_string = request.json["imageData"]
+    _, data = base64_string.split(',', 1)
+    # Decode the base64 data
+    decoded_data = base64.b64decode(data)
+    # Create a PIL Image
+    image = Image.open(BytesIO(decoded_data))
+
+    with BytesIO() as jpeg_buffer:
+        image.save(jpeg_buffer, format="JPEG")
+        jpeg_buffer.seek(0)
+        jpeg_image = Image.open(jpeg_buffer)
+        
+        # Now convert the JPEG image to a NumPy array
+        numpy_array = np.array(jpeg_image)
+
+        # Here, numpy_array is ready and you can use it with mainLoop or any other function
+    topGesturesArray = list(map(str, mainHandLoop(numpy_array, topGesturesArray)))
+    
+
+    # Send as JSON
+    return img_str
 
     
     

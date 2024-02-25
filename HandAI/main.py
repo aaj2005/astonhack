@@ -1,12 +1,10 @@
 import mediapipe as mp
-import cv2
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
 
-topGesturesArray = [0,0,0,0] #up, down, palm, none
-def mainLoop(numpy_image):     
+topGesturesArray = [0,0,0,0]
+def mainHandLoop(numpy_image):     
     # STEP 1: Import the necessary modules.
-    import mediapipe as mp
-    from mediapipe.tasks import python
-    from mediapipe.tasks.python import vision
 
     # STEP 2: Create an GestureRecognizer object.
     base_options = python.BaseOptions(model_asset_path='HandAI/gesture_recognizer.task')
@@ -36,6 +34,9 @@ def mainLoop(numpy_image):
     # print(hand_landmarks)
     return topGesturesArray
 
+
+def getTopGesturesArray():
+    return topGesturesArray
 # #display_batch_of_images_with_gestures_and_hand_landmarks(images, results)
 # cap = cv2.VideoCapture(0)
 # while True:
