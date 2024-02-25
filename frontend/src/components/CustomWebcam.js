@@ -7,7 +7,7 @@ const CustomWebcam = ({ onHide }) => {
   const [imgSrc, setImgSrc] = useState(null);
   const [loading, setLoading] = useState(true)
   const [count, setCount] = useState(0)
-  const maxCount = 500
+  const maxCount = 300
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -42,6 +42,8 @@ const CustomWebcam = ({ onHide }) => {
         
         }
     }
+
+    
 
     const intervalId = setInterval(() => {
         fetchData();  

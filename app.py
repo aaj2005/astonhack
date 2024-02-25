@@ -1,6 +1,6 @@
 from AI.SpeedTesting import mainLoop, getCumulativeArray
-from APIStuff.OpenAPI.initialPrompt import main
-from flask import Flask, request
+from APIStuff.OpenAPI.initialPrompt import returnPromt
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from io import BytesIO
 import json
@@ -80,33 +80,36 @@ def imageProcess():
 def getEmotionsArray():
 
     array = getCumulativeArray()
-    array = main()
+    # p = main(array)
 
     newImg = list(map(str, array))
     img_str = json.dumps(newImg)
 
     return img_str
 
-@app.route("/api/promt", methods=["POST"])
+@app.route("/api/prompt", methods=["POST"])
 def getGPTOutput():
 
     # Get array from json request - might not work ahahahh loser
-    jsonResponse = request.json()
+    jsonResponse = request.json["dataArray"]
+    print("THIS IS THE RESPONSE: " + str(jsonResponse))
 
+    array = map(int, jsonResponse)
     # Parse the JSON data
-    parsedData = json.loads(jsonResponse)
+    # parsedData = json.loads(jsonResponse)
 
     # Access the array
-    dataArray = parsedData['data']
+    # dataArray = parsedData['data']
 
-    prompt = main(dataArray)
+    prompt = returnPromt(array)
 
     # newImg = list(map(str, array))
     # img_str = json.dumps(newImg)
 
 
+    return jsonify(prompt)
 
-    return img_str
+    # return JSON.stringifyprompt
 
 
     

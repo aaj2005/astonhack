@@ -2,8 +2,19 @@ from openai import OpenAI
 import json
 
 def readPrompt():
-  with open('API Stuff\Open API\gptPrompt.txt', 'r') as file:
-    data = file.read().replace('\n', '')
+  
+  prompt = '''You will be given two emotions, and you will provide mental health feedback depending on these emotions.
+These emotions will be given as percentages of how much of each emotion they are feeling.
+The amount of feedback for each emotion should be weighted depending on the average of that emotion. For example if the first emotion has an average of 80% and the second 20%, then 80% of the feedback should apply to the first emotion and 20% of the feedback for the second emotion.
+If the emotions are positive, then feedback should be about how to stay positive, things to do when you're in a positive emotion, etc.
+If the emotions are negative, then feedback should be about how to stop feeling that way and start being positive. For example, if the emotions are negative then you could provide breathing exercises to calm them down / refocus their mind, or other applicable feedback.
+Provide your feedback with a break between paragraphs.
+Only include 5 bullet points.
+Do not write an introduction or conclusion.'''
+
+#   with open('API Stuff\Open API\gptPrompt.txt', 'r') as file:
+#     data = file.read().replace('\n', '')
+  data = prompt.replace('\n', '')
   return data
 
 def createUserInput(emotionArray, emotion_dict):
@@ -28,14 +39,14 @@ def formatOutput(str):
 	content = split_by_content[1].split("\",")[0].strip("'")
 	return content
 
-def main(emotionArray):
+def returnPromt(emotionArray):
 	emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 	# example array
 	# emotionArray = [0, 5, 3, 2, 1, 7, 3, 1] 
 	prompt = readPrompt()
 	userInput = createUserInput(emotionArray, emotion_dict)
 
-	client = OpenAI(api_key="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")
+	client = OpenAI(api_key="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")
 
 	completion = client.chat.completions.create(
 		model="gpt-3.5-turbo",
@@ -48,4 +59,4 @@ def main(emotionArray):
 	formattedOutput = formatOutput(output)
 	return formattedOutput
 
-print(main())
+# print(main())
