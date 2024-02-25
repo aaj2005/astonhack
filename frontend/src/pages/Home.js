@@ -47,7 +47,7 @@ const Home = () => {
                 .then(data => {
                   // Now 'data' contains the parsed JSON response
                   console.log(data)
-                  setPrompt(data);
+                  setPrompt(data)
                   getParagraphs(data)
                 })  
       const result = await response.json();
@@ -68,20 +68,12 @@ const Home = () => {
   }
 
 
-//     const jsonResponse = `
-//   I'm sorry to hear that you're feeling predominantly sad. Here are some suggestions to help you cope with and address these negative emotions:
 
-//   - Reach out for support: It's important to reach out to someone you trust, such as a friend, family member, or mental health professional, and let them know about your feelings. Sharing your emotions with others can provide comfort, understanding, and potential solutions.
-//   - Engage in self-care: Prioritize self-care activities that promote your overall well-being. This may include getting enough rest, eating nutritious meals, engaging in physical activity, and practicing relaxation techniques like deep breathing or meditation.
-//   - Express your emotions: Find healthy outlets to express and process your emotions, such as through journaling, art, or music. Allowing yourself to acknowledge and express your sadness can help you release some of the emotional burden.
-//   - Seek professional help: If your feelings of sadness persist or interfere with your daily functioning, consider reaching out to a mental health professional. They can provide guidance, support, and therapeutic interventions tailored to your specific needs.
-//   - Engage in activities that bring you joy: Although you're feeling mostly sad, try to incorporate activities into your routine that bring you moments of happiness or distraction. It could be listening to uplifting music, watching a favorite movie, or engaging in hobbies that you enjoy.
-//   - Practice self-compassion: Be kind and gentle with yourself during this time. Remember that it's okay to feel sad, and it's a natural part of being human. Treat yourself with compassion, understanding that healing takes time.
-
-//   It's important to note that these suggestions may not completely eliminate your sadness, but they can help you cope with and navigate through difficult emotions. Remember to be patient with yourself and reach out for professional help if needed. You don't have to face this alone, and there are resources available to support you.
-// `;
     const getParagraphs = (input) => {
-      setParagraphs(input.split('\n\n').filter(para => para.trim() !== ''))
+      const temp = input.split('\n\n').filter(para => para.trim() !== '')
+      
+      setParagraphs(temp)
+      console.log(temp)
     }
     
 
@@ -114,7 +106,7 @@ const Home = () => {
             {paragraphs ? (
                 <div>
                 {paragraphs.map((paragraph, index) => {
-            const paragraphLines = paragraph.split('- ').filter(line => line.trim() !== '');
+            const paragraphLines = paragraph.split('\n\n').filter(line => line.trim() !== '');
     
             if (paragraphLines.length > 1) {
             
