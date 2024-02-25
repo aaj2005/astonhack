@@ -1,6 +1,6 @@
 from AI.SpeedTesting import mainLoop, getCumulativeArray
 from HandAI.main import mainHandLoop
-from APIStuff.OpenAPI.initialPrompt import main
+from APIStuff.OpenAPI.initialPrompt import main, secondaryPromptMain
 from flask import Flask, request
 from flask_cors import CORS
 from io import BytesIO
@@ -128,13 +128,20 @@ def handGestureGen(): # Pass in webcam image
         numpy_array = np.array(jpeg_image)
 
         # Here, numpy_array is ready and you can use it with mainLoop or any other function
-    numpy_array = getCumulativeArray
+    numpy_array = getCumulativeArray()
     topGesturesArray = list(map(str, mainHandLoop(numpy_array)))
-    index_max = np.argmax(topGesturesArray)
+    indexOfMax = np.argmax(topGesturesArray)
     maxGesture = topGesturesArray.max()
     arraySum = topGesturesArray.sum()
     if (maxGesture / arraySum) > 0.3: #Threshold val, where lower is less strict
-        prompt = m
+        if indexOfMax == 0: #If thumb up
+            output = secondaryPromptMain()
+        else if indexOfMax == 1: # Thumb down
+            # restart whole process?, or just regenerate prompt? - would be tough because don't know original emotions.
+        else if indexOfMax == 2: # Palm out
+            # Close the webcam
+        else: # None
+            # carry on until gesture found
     else:
         return
 

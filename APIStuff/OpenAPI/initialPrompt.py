@@ -28,6 +28,21 @@ def formatOutput(str):
 	content = split_by_content[1].split("\",")[0].strip("'")
 	return content
 
+def secondaryPromptMain():
+	userInput = "Tell me ways I can further improve my mental health."
+	client = OpenAI(api_key="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")
+
+	completion = client.chat.completions.create(
+		model="gpt-3.5-turbo",
+		messages=[
+			{"role": "system", "content": readPrompt()},
+			{"role": "user", "content": userInput}
+		]
+	)
+	output = str(completion.choices[0].message)
+	formattedOutput = formatOutput(output)
+	return formattedOutput
+
 def main(emotionArray):
 	emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 	# example array
